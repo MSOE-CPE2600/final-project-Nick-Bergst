@@ -4,7 +4,7 @@ CC=gcc
 all: voteDB voteVM
 
 voteDB: voteDB.o
-	$(CC) -o voteDB voteDB.o
+	$(CC) -o voteDB voteDB.o -lm
 
 voteVM: voteVM.o
 	$(CC) -o voteVM voteVM.o

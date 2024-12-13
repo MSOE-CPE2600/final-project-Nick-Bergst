@@ -41,25 +41,36 @@ int main(int argc, char* argv[]) {
         sigqueue(myPid, SIGUSR2, toSend);
         while (vote != 0) {
             char buff[100];
-            printf("Vote For:\n\t[1] Slim Thinly (small party)\n\t[2] Thick Largely (BIG PARTY)\nOr [Q]uit\n");
-            printf("> ");
+            printf("Please enter your 4-digit Voter ID number or [Q]uit.\n> ");
             fgets(buff, sizeof buff, stdin);
-            if (buff[0] == '1') {
-                //cast for ST
-                toSend.sival_int = 0;
-                sigqueue(myPid, SIGUSR1, toSend);
-                printf("Vote processed.\n\n\n\n\n\n\n\n\n\n\n");
-            } else if (buff[0] == '2') {
-                //cast for TL
-                toSend.sival_int = 1;
-                sigqueue(myPid, SIGUSR1, toSend);
-                printf("Vote processed.\n\n\n\n\n\n\n\n\n\n\n\n");
-            } else if (buff[0] == 'Q' || buff[0] == 'q') {
+            //printf("%s",buff);
+            if (buff[0] == 'Q' || buff[0] == 'q') {
                 //start leaving
                 vote = 0;
             } else {
-                //give up
-                printf("Input not recognized!\n\n\n\n\n\n\n\n\n\n\n\n");
+                if (atoi(buff) < 10000) {
+                    toSend.sival_int = atoi(buff) * 10;
+                    printf("Vote For:\n\t[1] Slim Thinly (small party)\n\t[2] Thick Largely (BIG PARTY)\n> ");
+                    fgets(buff, sizeof buff, stdin);
+                    //printf("%s",buff);
+                    if (buff[0] == '1') {
+                        //cast for ST
+                        toSend.sival_int += 0;
+                        sigqueue(myPid, SIGUSR1, toSend);
+                        printf("Vote processed.\n");
+                    } else if (buff[0] == '2') {
+                        //cast for TL
+                        toSend.sival_int += 1;
+                        sigqueue(myPid, SIGUSR1, toSend);
+                        printf("Vote processed.\n");
+                    } else {
+                        //give up
+                        printf("Input not recognized!\n");
+                    }
+                } else {
+                    //give up
+                    printf("ID not recognized!\n");
+                }
             }
         }
         toSend.sival_int = -1;

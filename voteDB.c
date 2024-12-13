@@ -12,23 +12,46 @@
 #include <unistd.h>
 #include <stdlib.h>
 #include <stdio.h>
+#include <math.h>
 
 int signal_empty;
 int machinesConnected;
 int slimThinly;
 int thickLargely;
+long int oldVoters;
+int oldVotersL;
+int goodVoter;
 
 void handle_machine_signal(int sig, siginfo_t *info, void *ucontext) {
     //printf("Incoming Signal!");
     if (sig == SIGUSR1) {
-        if (info->si_value.sival_int == 0) {
-            slimThinly++;
-            printf("One vote for: Slim Thinly\n");
-        } else if (info->si_value.sival_int == 1) {
-            thickLargely++;
-            printf("One vote for: Thick Largely\n");
+        goodVoter = 1;
+        printf("Inspecting %d...\n", (int)(info->si_value.sival_int / 10));
+        //printf("oldVoters %ld\n", oldVoters);
+        for (int i = 0; i < oldVotersL; i++) {
+            int inspector = (int)(oldVoters / pow(10, i * 4));
+            inspector %= (int)pow(10, 4);
+            //printf("%d\n", inspector);
+            if ((int)(info->si_value.sival_int / 10) == inspector) {
+                goodVoter = 0;
+                break;
+            }
+        }
+        if (goodVoter == 1) {
+            oldVoters += (int)(info->si_value.sival_int / 10)*pow(10, oldVotersL * 4);
+            oldVotersL++;
+            printf("Voter %d has voted.\n", (int)(info->si_value.sival_int / 10));
+            if (info->si_value.sival_int % 10 == 0) {
+                slimThinly++;
+                printf("One vote for: Slim Thinly\n");
+            } else if (info->si_value.sival_int % 10 == 1) {
+                thickLargely++;
+                printf("One vote for: Thick Largely\n");
+            } else {
+                printf("Error! Unknown Vote\n");
+            }
         } else {
-            printf("Error! Unknown Vote\n");
+            printf("Voter %d has attempted to vote again; their second vote goes ignored.\n", (int)(info->si_value.sival_int / 10));
         }
     } else if (sig == SIGUSR2) {
         machinesConnected += info->si_value.sival_int;
@@ -78,6 +101,9 @@ int main() {
     //nobody has votes
     slimThinly = 0;
     thickLargely = 0;
+    goodVoter = 0;
+    oldVotersL = 0;
+    oldVoters = 0;
 
     // Register for the vote count signal
     struct sigaction cVotes;

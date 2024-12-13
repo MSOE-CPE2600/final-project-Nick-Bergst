@@ -17,23 +17,23 @@ Machine Connected!
 be good practice, which is why voting is described here as simply typing the character in the
 brackets to vote for a candidate, or disconnect the machine, as shown here.
 
+
+Please enter your 4-digit Voter ID number or [Q]uit.
+> 1234
 Vote For:
-        [1] Slim Thinly
-        [2] Thick Largely
-Or [Q]uit
-        > 2
+    [1] Slim Thinly (small party)
+    [2] Thick Largely (BIG PARTY)
+> 1
 Vote processed.
+Please enter your 4-digit Voter ID number or [Q]uit.
+> 2345
 Vote For:
-        [1] Slim Thinly
-        [2] Thick Largely
-Or [Q]uit
-        > 1
+    [1] Slim Thinly (small party)
+    [2] Thick Largely (BIG PARTY)
+> 2
 Vote processed.
-Vote For:
-        [1] Slim Thinly
-        [2] Thick Largely
-Or [Q]uit
-        > q
+Please enter your 4-digit Voter ID number or [Q]uit.
+> q
 Thank you for voting!
 
     When all connected machines are disconnected, the database will display the tallied votes and
