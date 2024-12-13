@@ -1,3 +1,13 @@
+/**
+* @file voteDB.c
+* @brief voting database terminal script.
+*
+* Course: CPE2600
+* Section: 111?
+* Assignment: Final Project
+* Name: Nicholas Bergst
+*/
+
 #include <signal.h>
 #include <unistd.h>
 #include <stdlib.h>
@@ -30,7 +40,7 @@ void handle_machine_signal(int sig, siginfo_t *info, void *ucontext) {
         if (machinesConnected == 0) {
             //voting is done
             signal_empty = 0;
-            printf("Slim Thinly: %d votes\n Thick Largely: %d votes\n\n\n", slimThinly, thickLargely);
+            printf("Slim Thinly (small party): %d votes\nThick Largely (Big Party): %d votes\n\n\n", slimThinly, thickLargely);
             if (slimThinly > thickLargely) {
                 printf("Slim Thinly\n\tWINNER\n");
             } else if (slimThinly < thickLargely) {

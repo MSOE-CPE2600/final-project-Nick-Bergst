@@ -1,3 +1,13 @@
+/**
+* @file voteVM.c
+* @brief voting machine terminal script.
+*
+* Course: CPE2600
+* Section: 111?
+* Assignment: Final Project
+* Name: Nicholas Bergst
+*/
+
 #include <signal.h>
 #include <unistd.h>
 #include <stdlib.h>
@@ -31,25 +41,25 @@ int main(int argc, char* argv[]) {
         sigqueue(myPid, SIGUSR2, toSend);
         while (vote != 0) {
             char buff[100];
-            printf("Vote For:\n\t[1] Slim Thinly\n\t[2] Thick Largely\nOr [Q]uit\n\t");
+            printf("Vote For:\n\t[1] Slim Thinly (small party)\n\t[2] Thick Largely (BIG PARTY)\nOr [Q]uit\n");
             printf("> ");
             fgets(buff, sizeof buff, stdin);
             if (buff[0] == '1') {
                 //cast for ST
                 toSend.sival_int = 0;
                 sigqueue(myPid, SIGUSR1, toSend);
-                printf("Vote processed.\n");
+                printf("Vote processed.\n\n\n\n\n\n\n\n\n\n\n");
             } else if (buff[0] == '2') {
                 //cast for TL
                 toSend.sival_int = 1;
                 sigqueue(myPid, SIGUSR1, toSend);
-                printf("Vote processed.\n");
+                printf("Vote processed.\n\n\n\n\n\n\n\n\n\n\n\n");
             } else if (buff[0] == 'Q' || buff[0] == 'q') {
                 //start leaving
                 vote = 0;
             } else {
                 //give up
-                printf("Input not recognized!\n");
+                printf("Input not recognized!\n\n\n\n\n\n\n\n\n\n\n\n");
             }
         }
         toSend.sival_int = -1;
